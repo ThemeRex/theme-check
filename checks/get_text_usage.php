@@ -32,12 +32,13 @@ class GetTextUsage implements themecheck {
 
 			foreach ( $checks as $key => $check ) {
 				checkcount();
-				if ( preg_match_all( $key, $phpfile, $matches ) ) {
-					$filename = tc_filename( $php_key );
+				if ( preg_match( $key, $phpfile, $matches ) ) {
+					$error = ltrim( rtrim( $matches[0], '(' ) );
+					$grep = tc_grep( $error, $php_key );
 					$this->error[] = sprintf(
 						'<span class="tc-lead tc-warning">' . __( 'WARNING','theme-check' ) . '</span>: ' . __( 'Maybe wrong translation function usage in %1$s. %2$s', 'theme-check' ),
-						'<strong>' . $filename . '</strong>',
-						$check
+						'<strong>' . $php_key . '</strong>',
+						$grep
 					);
 				}
 			}

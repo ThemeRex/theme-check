@@ -31,11 +31,17 @@ class NotTranslatedStrings implements themecheck {
 			foreach ( $checks as $key => $check ) {
 				checkcount();
 				if ( preg_match_all( $key, $phpfile, $matches ) ) {
-					$filename = tc_filename( $php_key );
-					$this->error[] = sprintf(
-						'<span class="tc-lead tc-warning">' . __( 'WARNING','theme-check' ) . '</span>: ' . __( 'Potentialy not translated string in %1$s.', 'theme-check' ),
-						'<strong>' . $filename . '</strong>'
-					);
+					foreach ($matches[0] as $match ) {
+						$error = ltrim( $match, '(' );
+						$error = rtrim( $error, '(' );
+						$grep = tc_grep( $error, $php_key );
+						$this->error[] = sprintf(
+							'<span class="tc-lead tc-warning">' . __( 'WARNING','theme-check' ) . '</span>: ' . __( 'Potentialy not translated string %2$s was found in the file %1$s.%3$s', 'theme-check' ),
+							'<strong>' . $php_key . '</strong>',
+							$check,
+							$grep
+						);
+					}
 				}
 			}
 		}

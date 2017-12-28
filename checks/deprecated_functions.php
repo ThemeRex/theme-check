@@ -18,13 +18,19 @@ class DeprecatedFunctions implements themecheck {
 
 			foreach ( $deprecated_functions as $function ) {
 				checkcount();
-				if ( false !== strpos( $phpfile, $function . '(' ) ) {
-					$filename = tc_filename( $php_key );
-					$this->error[] = sprintf(
-						'<span class="tc-lead tc-warning">' . __( 'WARNING','theme-check' ) . '</span>: ' . __( 'Function %1$s found %2$s. %1$s not allowed to use.', 'theme-check' ),
-						'<strong>' . $function . '</strong>',
-						'<strong>' . $filename . '</strong>'
-					);
+				if ( false !== preg_match_all( '/' . $function . '\s?\(/', $phpfile, $matches ) ) {
+
+					foreach ($matches[0] as $match ) {
+						$error = ltrim($match, '(');
+						$error = rtrim($error, '(');
+						$grep = tc_grep($error, $php_key);
+						$this->error[] = sprintf(
+							'<span class="tc-lead tc-warning">' . __('WARNING', 'theme-check') . '</span>: ' . __('Function %1$s found %2$s. %1$s not allowed to use.%3$s', 'theme-check'),
+							'<strong>' . $function . '</strong>',
+							'<strong>' . $php_key . '</strong>',
+							$grep
+						);
+					}
 				}
 			}
 		}

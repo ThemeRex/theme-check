@@ -52,7 +52,7 @@ class ScriptFilesInTemplates implements themecheck {
 			$error = ltrim( $found, '(' );
 			$error = rtrim( $error, '(' );
 			$grep = tc_grep( $error, $php_key );
-			$this->error[] = sprintf('<span class="tc-lead tc-warning">'.__('WARNING','theme-check').'</span>: '.__('Script or stylesheet link was found in the file %1$s %2$s.', 'theme-check'), '<strong>' . $filename . '</strong>', $check ) ;
+			$this->error[] = sprintf('<span class="tc-lead tc-warning">'.__('WARNING','theme-check').'</span>: '.__('Script or stylesheet link was found in the file %1$s %2$s.%3$s', 'theme-check'), '<strong>' . $filename . '</strong>', $check, $grep ) ;
 		}
 
 	}

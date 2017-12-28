@@ -33,7 +33,6 @@ class Deprecated_Recommended implements themecheck {
 				$key = key( $check );
 				$alt = $check[ $key ];
 				if ( preg_match( '/[\s?]' . $key . '\(/', $phpfile, $matches ) ) {
-					$filename = tc_filename( $php_key );
 					$error = ltrim( rtrim( $matches[0], '(' ) );
 					$version = $check[0];
 					$grep = tc_grep( $error, $php_key );
@@ -42,7 +41,7 @@ class Deprecated_Recommended implements themecheck {
 					$error_msg = sprintf(
 						__( '%1$s found in the file %2$s. Deprecated since version %3$s.', 'theme-check' ),
 						'<strong>' . $error . '()</strong>',
-						'<strong>' . $filename . '</strong>',
+						'<strong>' . $php_key . '</strong>',
 						'<strong>' . $version . '</strong>'
 					);
 

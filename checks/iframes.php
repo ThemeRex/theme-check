@@ -13,11 +13,10 @@ class IframeCheck implements themecheck {
 			foreach ( $checks as $key => $check ) {
 				checkcount();
 				if ( preg_match( $key, $phpfile, $matches ) ) {
-					$filename = tc_filename( $php_key );
 					$error = ltrim( $matches[1], '(' );
 					$error = rtrim( $error, '(' );
 					$grep = tc_grep( $error, $php_key );
-					$this->error[] = sprintf('<span class="tc-lead tc-info">'.__('INFO','theme-check').'</span>: '.__('%1$s was found in the file %2$s %3$s.%4$s', 'theme-check'), '<strong>' . $error . '</strong>', '<strong>' . $filename . '</strong>', $check, $grep ) ;
+					$this->error[] = sprintf('<span class="tc-lead tc-info">'.__('INFO','theme-check').'</span>: '.__('%1$s was found in the file %2$s %3$s.%4$s', 'theme-check'), '<strong>' . $error . '</strong>', '<strong>' . $php_key . '</strong>', $check, $grep ) ;
 				}
 			}
 		}

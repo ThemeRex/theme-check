@@ -17,10 +17,9 @@ class WormCheck implements themecheck {
 			foreach ( $checks as $key => $check ) {
 				checkcount();
 				if ( preg_match( $key, $phpfile, $matches ) ) {
-					$filename = tc_filename( $php_key );
 					$error = $matches[0];
 					$grep = tc_grep( $error, $php_key );
-					$this->error[] = sprintf('<span class="tc-lead tc-warning">'. __( 'WARNING', 'theme-check') . '</span>: <strong>%1$s</strong> %2$s%3$s', $filename, $check, $grep );
+					$this->error[] = sprintf('<span class="tc-lead tc-warning">'. __( 'WARNING', 'theme-check') . '</span>: <strong>%1$s</strong> %2$s%3$s', $php_key, $check, $grep );
 					$ret = false;
 				}
 			}

@@ -22,13 +22,21 @@ class BlankPrefixes implements themecheck {
 			foreach ( $deprected_prefixes as $prefix ) {
 				checkcount();
 
-				if ( false !== strpos( $phpfile, $prefix ) ) {
-					$filename = tc_filename( $php_key );
-					$this->error[] = sprintf(
-						'<span class="tc-lead tc-warning">' . __( 'WARNING','theme-check' ) . '</span>: ' . __( 'Prefix %1$s was found in the file %2$s.', 'theme-check' ),
-						'<strong>' . $prefix . '</strong>',
-						'<strong>' . $filename . '</strong>'
-					);
+				if ( false !== preg_match_all( '/' . $prefix . '/', $phpfile, $matches ) ) {
+					foreach ($matches[0] as $match ) {
+						$error = ltrim( $match, '(' );
+						$error = rtrim( $error, '(' );
+						$grep = tc_grep( $error, $php_key );
+						$this->error[] = sprintf(
+							'<span class="tc-lead tc-warning">' . __( 'WARNING','theme-check' ) . '</span>: ' . __( 'Prefix %1$s was found in the file %2$s.%3$s', 'theme-check' ),
+							'<strong>' . $match . '</strong>',
+							'<strong>' . $php_key . '</strong>',
+							$grep
+						);
+						$ret = false;
+					}
+
+
 				}
 			}
 		}

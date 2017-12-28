@@ -82,19 +82,36 @@ function tc_grep( $error, $file ) {
 		return '';
 	}
 	$lines = file( $file, FILE_IGNORE_NEW_LINES ); // Read the theme file into an array
-	$line_index = 0;
+	$line_index = 1;
 	$bad_lines = '';
 	foreach( $lines as $this_line )	{
-		if ( stristr ( $this_line, $error ) ) {
+ 		if ( stristr ( $this_line, $error ) ) {
 			$error = str_replace( '"', "'", $error );
 			$this_line = str_replace( '"', "'", $this_line );
 			$error = ltrim( $error );
 		$pre = ( FALSE !== ( $pos = strpos( $this_line, $error ) ) ? substr( $this_line, 0, $pos ) : FALSE );
 		$pre = ltrim( htmlspecialchars( $pre ) );
-			$bad_lines .= "<pre class='tc-grep'>". __("Line ", "theme-check") . ( $line_index+1 ) . ": " . $pre . htmlspecialchars( substr( stristr( $this_line, $error ), 0, 75 ) ) . "</pre>";
+			$bad_lines .= "<pre class='tc-grep'>". __("Line ", "theme-check") . ( $line_index ) . ": " . $pre . htmlspecialchars( substr( stristr( $this_line, $error ), 0, 75 ) ) . "</pre>";
 		}
 		$line_index++;
 	}
+	return str_replace( $error, '<span class="tc-grep">' . $error . '</span>', $bad_lines );
+}
+
+// some functions theme checks use
+function tc_grep_multiline( $error, $file ) {
+	if ( ! file_exists( $file ) ) {
+		return '';
+	}
+	$file_content = file_get_contents( $file );
+	$file_content = tc_strip_comments( $file_content );
+	$bad_lines = '';
+	$start_position = strpos($file_content, $error);
+	if ($start_position !== false) {
+		$count_lines = substr_count($file_content, "\n", 0, $start_position);
+		$bad_lines .= "<pre class='tc-grep'>". __("Line ", "theme-check") . ( $count_lines ) . ": " . htmlspecialchars( substr( $error, 0, 75 ) ) . "</pre>";
+	}
+
 	return str_replace( $error, '<span class="tc-grep">' . $error . '</span>', $bad_lines );
 }
 

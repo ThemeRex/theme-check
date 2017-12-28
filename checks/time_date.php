@@ -16,10 +16,13 @@ class Time_Date implements themecheck {
 			foreach ( $checks as $key => $check ) {
 				checkcount();
 				if ( preg_match( $key, $phpfile, $matches ) ) {
-					$filename = tc_filename( $php_key );
-					$matches[0] = str_replace(array('"',"'"),'', $matches[0]);
-					$error = trim( esc_html( rtrim( $matches[0], '(' ) ) );
-					$this->error[] = sprintf( '<span class="tc-lead tc-info">' . __( 'INFO', 'theme-check' ) . '</span>: ' . __( 'At least one hard coded date was found in the file %1$s. Consider %2$s instead.', 'theme-check' ), '<strong>' . $filename . '</strong>', "<strong>get_option( 'date_format' )</strong>" );
+					$error = ltrim( $matches[0], '(' );
+					$error = rtrim( $error, '(' );
+					$grep = tc_grep( $error, $php_key );
+					$this->error[] = sprintf( '<span class="tc-lead tc-info">' . __( 'INFO', 'theme-check' ) . '</span>: ' . __( 'At least one hard coded date was found in the file %1$s. Consider %2$s instead.%3$s', 'theme-check' ),
+						'<strong>' . $php_key . '</strong>',
+						"<strong>get_option( 'date_format' )</strong>",
+						$grep );
 				}
 			}
 		}

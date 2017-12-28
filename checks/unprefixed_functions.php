@@ -19,7 +19,7 @@ class UnprefixedFuntions implements themecheck {
 		$prefix = str_replace( '-', '_', strtolower( $tex_domain ) );
 
 		$checks = array(
-			'/[^ ]function (?!' . $prefix . '|__construct)\w*/' => __( 'Incorrect prefix for function', 'theme-check' )
+			'/[^ ]function (?!' . $prefix . '|__construct|\()\w*/' => __( 'Incorrect prefix for function', 'theme-check' )
 		);
 
 		foreach ( $php_files as $php_key => $phpfile ) {
@@ -30,12 +30,19 @@ class UnprefixedFuntions implements themecheck {
 
 			foreach ( $checks as $key => $check ) {
 				checkcount();
-				if ( preg_match_all( $key, $phpfile, $matches ) ) {
-					$filename = tc_filename( $php_key );
-					$this->error[] = sprintf(
-						'<span class="tc-lead tc-warning">' . __( 'WARNING','theme-check' ) . '</span>: ' . __( 'Function with not correct prefix was found in the file %1$s.', 'theme-check' ),
-						'<strong>' . $filename . '</strong>'
-					);
+				if ( strpos($phpfile, 'class ') === false && preg_match_all( $key, $phpfile, $matches ) ) {
+					foreach ($matches[0] as $match ) {
+						$error = ltrim( $match, '(' );
+						$error = rtrim( $error, '(' );
+						$grep = tc_grep( $error, $php_key );
+
+						$this->error[] = sprintf(
+							'<span class="tc-lead tc-warning">' . __( 'WARNING','theme-check' ) . '</span>: ' . __( 'Function with not correct prefix %2$s was found in the file %1$s.%3$s', 'theme-check' ),
+							'<strong>' . $php_key . '</strong>',
+							$check,
+							$grep
+						);
+					}
 				}
 			}
 		}

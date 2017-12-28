@@ -14,7 +14,6 @@ class Check_Links implements themecheck {
 			$title_re = '[[:blank:][:alnum:][:punct:]]*';	// 0 or more: any num, letter(upper/lower) or any punc symbol
 			$space_re = '(\\s*)';
 			if ( preg_match_all( "/(<a)(\\s+)(href" . $space_re . "=" . $space_re . "\"" . $space_re . "((http|https|ftp):\\/\\/)?)" . $url_re . "(\"" . $space_re . $title_re . $space_re . ">)" . $title_re . "(<\\/a>)/is", $phpfile, $out, PREG_SET_ORDER ) ) {
-				$filename = tc_filename( $php_key );
 				foreach( $out as $key ) {
 					if ( preg_match( '/\<a\s?href\s?=\s?["|\'](.*?)[\'|"](.*?)\>(.*?)\<\/a\>/is', $key[0], $stripped ) ) {
 						if ( !empty( $data['AuthorURI'] ) && !empty( $data['URI'] ) && $stripped[1] && !strpos( $stripped[1], $data['URI'] ) && !strpos( $stripped[1], $data['AuthorURI'] ) && !strpos( $stripped[1], 'wordpress.' ) ) {
@@ -23,7 +22,7 @@ class Check_Links implements themecheck {
 					}
 				}
 				if ( $grep ) {
-					$this->error[] = sprintf('<span class="tc-lead tc-info">'.__('INFO','theme-check').'</span>: '.__('Possible hard-coded links were found in the file %1$s.%2$s', 'theme-check'), '<strong>' . $filename . '</strong>', $grep);
+					$this->error[] = sprintf('<span class="tc-lead tc-info">'.__('INFO','theme-check').'</span>: '.__('Possible hard-coded links were found in the file %1$s.%2$s', 'theme-check'), '<strong>' . $php_key . '</strong>', $grep);
 				}
 			}
 		}

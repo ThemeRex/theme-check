@@ -20,11 +20,18 @@ class ScriptStyleTags implements themecheck {
 			foreach ( $checks as $key => $check ) {
 				checkcount();
 				if ( preg_match_all( $key, $phpfile, $matches ) ) {
-					$filename = tc_filename( $php_key );
-					$this->error[] = sprintf(
-						'<span class="tc-lead tc-warning">' . __( 'WARNING','theme-check' ) . '</span>: ' . __( 'Script or Style tags was found in the file %1$s.', 'theme-check' ),
-						'<strong>' . $filename . '</strong>'
-					);
+					foreach ($matches[0] as $match ) {
+						$error = ltrim( $match, '(' );
+						$error = rtrim( $error, '(' );
+						$grep = tc_grep_multiline( $error, $php_key );
+
+						$this->error[] = sprintf(
+							'<span class="tc-lead tc-warning">' . __( 'WARNING','theme-check' ) . '</span>: ' . __( 'Script or Style tags was found in the file %1$s.%2$s', 'theme-check' ),
+							'<strong>' . $php_key . '</strong>',
+							$grep
+						);
+					}
+
 				}
 			}
 		}

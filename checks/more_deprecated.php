@@ -46,10 +46,9 @@ class More_Deprecated implements themecheck {
 				// Loop through the parameters and look for all function/parameter combinations.
 				foreach ( $data as $parameter => $replacement ) {
 					if ( preg_match( '/' . $function . '\(\s*("|\')' . $parameter . '("|\')\s*\)/', $php_file, $matches ) ) {
-						$filename      = tc_filename( $php_key );
 						$error         = ltrim( rtrim( $matches[0], '(' ) );
 						$grep          = tc_grep( $error, $php_key );
-						$this->error[] = sprintf( '<span class="tc-lead tc-required">' . __( 'REQUIRED', 'theme-check' ) . '</span>: ' . __( '%1$s was found in the file %2$s. Use %3$s instead.%4$s', 'theme-check' ), '<strong>' . $error . '</strong>', '<strong>' . $filename . '</strong>', '<strong>' . $replacement . '</strong>', $grep );
+						$this->error[] = sprintf( '<span class="tc-lead tc-required">' . __( 'REQUIRED', 'theme-check' ) . '</span>: ' . __( '%1$s was found in the file %2$s. Use %3$s instead.%4$s', 'theme-check' ), '<strong>' . $error . '</strong>', '<strong>' . $php_key . '</strong>', '<strong>' . $replacement . '</strong>', $grep );
 						$ret           = false;
 					}
 				}

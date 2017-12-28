@@ -32,15 +32,13 @@ class EmptyTranslations implements themecheck {
 		}
 
 		foreach ( $matches[1] as $match ) {
-
-			$filename = tc_filename( $php_key );
 			$error    = ltrim( $match, '(' );
 			$error    = rtrim( $error, '(' );
 			$grep     = tc_grep( $error, $php_key );
 
 			$this->error[] = sprintf(
 				'<span class="tc-lead tc-warning">'.__('WARNING','theme-check').'</span>: '.__('Empty translation string was found in the file %1$s %2$s.%3$s', 'theme-check'),
-				'<strong>' . $filename . '</strong>',
+				'<strong>' . $php_key . '</strong>',
 				$check,
 				$grep
 			);

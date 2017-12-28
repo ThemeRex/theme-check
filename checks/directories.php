@@ -15,12 +15,12 @@ class DirectoriesCheck implements themecheck {
 
 		foreach ( $css_files as $name => $file ) {
 			checkcount();
-			if ( strpos( $name, '.git' ) !== false || strpos( $name, '.svn' ) !== false || strpos( $name, '.hg' ) !== false || strpos( $name, '.bzr' ) !== false ) $found = true;
+			if ( strpos( $name, '.git' ) !== false || strpos( $name, '.svn' ) !== false || strpos( $name, '.hg' ) !== false || strpos( $name, '.bzr' ) !== false || strpos( $name, '.idea' ) !== false ) $found = true;
 		}
 
 		foreach ( $other_files as $name => $file ) {
 			checkcount();
-			if ( strpos( $name, '.git' ) !== false || strpos( $name, '.svn' ) !== false || strpos( $name, '.hg' ) !== false || strpos( $name, '.bzr' ) !== false ) $found = true;
+			if ( strpos( $name, '.git' ) !== false || strpos( $name, '.svn' ) !== false || strpos( $name, '.hg' ) !== false || strpos( $name, '.bzr' ) !== false || strpos( $name, '.idea' ) !== false ) $found = true;
 		}
 
 		if ($found) {
