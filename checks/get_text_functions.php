@@ -8,7 +8,7 @@ class GetTextFunctions implements themecheck {
 		$ret = true;
 
 		$checks = array(
-			'/[\s\=\>\.\(\!o](_[_e])\(/' => __( 'Use only <strong>esc_html__</strong> or <strong>esc_html_e</strong> translation function', 'theme-check' )
+			'/\W_[_|e]\(/' => __( 'Use only <strong>esc_html__</strong> or <strong>esc_html_e</strong> translation function', 'theme-check' )
 			);
 
 		foreach ( $php_files as $php_key => $phpfile ) {
