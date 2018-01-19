@@ -19,9 +19,9 @@ class GetTextUsage implements themecheck {
 		$prefix = str_replace( '-', '_', strtolower( $tex_domain ) );
 
 		$checks = array(
-			'/_[_e]\([\s]?[\'\"](\<\w|[a-zA-Z \!\?\,\.]*\<[\w])/' => __( 'HTML not allowed in translation functions.', 'theme-check' ),
-			'/_[_e]\([\s]?[\'\"](\$\w|[a-zA-Z \?\!\.\,]*\$\w)/' => __( 'Variables not allowed in translation functions.', 'theme-check' ),
-			'/_[_e]\([\s]?[\'\"].*?[\'\"]\,[\s]?[a-zA-Z\$]*[\s]?\)/' => __( 'Variables and constants not allowed as textdomain.', 'theme-check' ),
+			'/esc_html_[_e]\([\s]?[\'\"](\<\w|[a-zA-Z \!\?\,\.]*\<[\w])/' => __( 'HTML not allowed in translation functions.', 'theme-check' ),
+			'/esc_html_[_e]\([\s]?[\'\"](\$\w|[a-zA-Z \?\!\.\,]*\$\w)/' => __( 'Variables not allowed in translation functions.', 'theme-check' ),
+			'/esc_html_[_e]\([\s]?[\'\"].*?[\'\"]\,[\s]?[a-zA-Z\$]*[\s]?\)/' => __( 'Variables and constants not allowed as textdomain.', 'theme-check' ),
 		);
 
 		foreach ( $php_files as $php_key => $phpfile ) {
