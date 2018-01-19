@@ -32,8 +32,6 @@ class GetTextFunctions implements themecheck {
 	 */
 	function add_errors( $matches, $check, $php_key ) {
 
-		$matches= $matches;
-
 		if ( empty( $matches[0] ) ) {
 			return;
 		}
