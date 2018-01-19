@@ -8,7 +8,7 @@ class GetTextFunctions implements themecheck {
 		$ret = true;
 
 		$checks = array(
-			'/\W_[_|e]\(/' => __( 'Use only <strong>esc_html__</strong> or <strong>esc_html_e</strong> translation function', 'theme-check' )
+			'/\W_[_e]\(\s*(\'|\")[\w\s]+/' => __( 'Use only <strong>esc_html__</strong> or <strong>esc_html_e</strong> translation function', 'theme-check' )
 			);
 
 		foreach ( $php_files as $php_key => $phpfile ) {
@@ -32,13 +32,14 @@ class GetTextFunctions implements themecheck {
 	 */
 	function add_errors( $matches, $check, $php_key ) {
 
-		if ( empty( $matches[1] ) ) {
+		$matches= $matches;
+
+		if ( empty( $matches[0] ) ) {
 			return;
 		}
 
-		foreach ( $matches[1] as $match ) {
-			$error = ltrim( $match, '(' );
-			$error = rtrim( $error, '(' );
+		foreach ( $matches[0] as $match ) {
+			$error = $match;
 			$grep = tc_grep( $error, $php_key );
 			$this->error[] = sprintf('<span class="tc-lead tc-warning">'.__('WARNING','theme-check').'</span>: '.__('%1$s was found in the file %2$s %3$s.%4$s', 'theme-check'), '<strong>' . $error . '</strong>', '<strong>' . $php_key . '</strong>', $check, $grep ) ;
 		}
