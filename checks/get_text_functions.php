@@ -7,8 +7,9 @@ class GetTextFunctions implements themecheck {
 
 		$ret = true;
 
+		// [\s\w]*(?!wp_kses_data)\W\s*_(_|e)\(\s*('|\")[\w\s]+
 		$checks = array(
-			'/\W_[_e]\(\s*(\'|\")[\w\s]+/' => __( 'Use only <strong>esc_html__</strong> or <strong>esc_html_e</strong> translation function', 'theme-check' )
+			'/(wp_kses_data)*\W\s*_(_|e)\(\s*(\'|\")[\w\s]+/' => __( 'Use only <strong>esc_html__</strong> or <strong>esc_html_e</strong> translation function', 'theme-check' )
 			);
 
 		foreach ( $php_files as $php_key => $phpfile ) {
@@ -37,6 +38,9 @@ class GetTextFunctions implements themecheck {
 		}
 
 		foreach ( $matches[0] as $match ) {
+			if (strpos($match, 'wp_kses_data') !== false) {
+				continue;
+			}
 			$error = $match;
 			$grep = tc_grep( $error, $php_key );
 			$this->error[] = sprintf('<span class="tc-lead tc-warning">'.__('WARNING','theme-check').'</span>: '.__('%1$s was found in the file %2$s %3$s.%4$s', 'theme-check'), '<strong>' . $error . '</strong>', '<strong>' . $php_key . '</strong>', $check, $grep ) ;
